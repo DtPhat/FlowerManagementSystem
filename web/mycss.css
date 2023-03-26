@@ -1,0 +1,134 @@
+*{
+    box-sizing:border-box;
+}
+html{
+    font-family: arial;
+    font-size: 14px;
+}
+header,section,footer,nav,ul {
+    width: 100%;
+}
+header, nav, footer{
+    background-color: #e1f5eb;
+}
+
+section {
+    height: auto;
+}
+
+footer{
+    padding: 2rem;
+}
+
+a{
+    color: #006666;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+a:hover{
+    color:limegreen;
+}
+
+.wrapper{
+    padding:1rem 2rem 1rem 2rem;
+}
+
+.form-table td{
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.order {
+    border: 1px solid #cccccc;
+    width: 95%;
+    margin: 1%;
+}
+.table-striped tr:first-child{
+    width:100%;
+    background-color: #d5ebe0;
+    color: #006666;
+}
+
+.order tr:first-child{
+    width:100%;
+    background-color:#e1eee7;
+    color: #006666;
+}
+
+.order td{
+    color:black;
+    width: 15%;
+}
+
+.form-container{
+    color: green;
+    font-weight: bold;
+}
+
+.shopping {
+    width:70%;
+}
+
+.cart-form {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.cart-img{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 10%;
+}
+
+.navbar{
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.nav-item{
+    width: 15%;
+}
+
+.nav-link{
+    color: green;
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+    padding-top: 1.2rem;
+}
+.nav-link:hover{
+    color:limegreen;
+}
+
+.nav-txtsearch{
+    padding-right: 20rem;
+}
+
+.plant-container{
+    padding-left: 3rem;
+}
+
+.plantimg {
+    border-radius: 5%;
+    padding: 1rem;
+    height: 30rem;
+}
+
+.card{
+    width: 30rem;
+    background: #f1f7ee;
+}
+
+.card-text{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.bg-admin{
+    width: 100%;
+}
+
+.logo{
+    width: 16rem;
+}
