@@ -33,10 +33,10 @@
                         for (OrderDetail detail : list) {
             %>
             <table class="order">
-                <tr><td>Order ID</td><td>Plant ID</td><td>Plant Name</td><td>Image</td><td>Price</td><td>Quantity</td></tr>
+                <tr><td>Order ID</td><td>Laptop ID</td><td>Laptop Name</td><td>Image</td><td>Price</td><td>Quantity</td></tr>
                 <tr>
-                    <td><%=detail.getOrderID()%></td><td><%=detail.getPlantID()%></td>
-                    <td><%=detail.getPlantName()%></td>
+                    <td><%=detail.getOrderID()%></td><td><%=detail.getLaptopID()%></td>
+                    <td><%=detail.getLaptopName()%></td>
                     <td><img src='<%= detail.getImgPath()%>' class='cart-img  m-1' /></td>
                     <td><%=detail.getPrice()%></td>
                     <td><%=detail.getQuantity()%></td>

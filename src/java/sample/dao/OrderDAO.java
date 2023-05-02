@@ -245,21 +245,21 @@ public class OrderDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select DetailID, OrderID, PID, PName, price, imgPath, quantity\n"
-                        + "from OrderDetails, Plants\n"
-                        + "where OrderDetails.FID = Plants.PID and OrderID = ?";
+                String sql = "select DetailID, OrderID, OrderDetails.LID, LName, price, imgPath, quantity\n"
+                        + "from OrderDetails, Laptops\n"
+                        + "where OrderDetails.LID = Laptops.LID and OrderID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, orderID);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
                         int detailID = rs.getInt("DetailID");
-                        int PlantID = rs.getInt("PID");
-                        String PlantName = rs.getString("PName");
+                        int LaptopID = rs.getInt("LID");
+                        String LaptopName = rs.getString("LName");
                         int price = rs.getInt("price");
                         String imgPath = rs.getString("imgPath");
                         int quantity = rs.getInt("quantity");
-                        OrderDetail orderdetail = new OrderDetail(detailID, orderID, PlantID, PlantName, price, imgPath, quantity);
+                        OrderDetail orderdetail = new OrderDetail(detailID, orderID, LaptopID, LaptopName, price, imgPath, quantity);
                         list.add(orderdetail);
                     }
                 }
@@ -310,13 +310,13 @@ public class OrderDAO {
                     orderid = rs.getInt("orderID");
                 }
                 System.out.println("orderid:" + orderid);
-                Set<String> pids = cart.keySet();
-                for (String pid : pids) {
+                Set<String> lids = cart.keySet();
+                for (String lid : lids) {
                     sql = "insert OrderDetails values(?,?,?)";
                     pst = cn.prepareStatement(sql);
                     pst.setInt(1, orderid);
-                    pst.setInt(2, Integer.parseInt(pid.trim()));
-                    pst.setInt(3, cart.get(pid));
+                    pst.setInt(2, Integer.parseInt(lid.trim()));
+                    pst.setInt(3, cart.get(lid));
                     pst.executeUpdate();
                     cn.commit();
                     cn.setAutoCommit(true);

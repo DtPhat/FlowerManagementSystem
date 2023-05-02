@@ -20,6 +20,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <header>
+        <%@include file="header.jsp" %> 
         <%@include file="header_loginedUser.jsp" %> 
     </header>
     <body>
@@ -29,25 +30,7 @@
             Date fromDate = (Date) request.getAttribute("fromDate");
             Date toDate = (Date) request.getAttribute("toDate");
             int statusParam = (request.getParameter("status") != null) ? Integer.parseInt(request.getParameter("status")) : -1;
-            Cookie[] c = request.getCookies();
-            boolean login = false;
-            if (name == null) {
-                String token = "";
-                for (Cookie aCookie : c) {
-                    if (aCookie.getName().equals("selector")) {
-                        token = aCookie.getValue();
-                        Account acc = AccountDAO.getAccount(token);
-                        if (acc != null) {
-                            name = acc.getFullname();
-                            email = acc.getEmail();
-                            login = true;
-                        }
-                    }
-                }
-            } else {
-                login = true;
-            }
-            if (login) {
+            if (name!= null) {
         %>
         <section class="pt-3">
             <h3 style="padding-left: 1%;">Welcome <%= name%> | <a href="mainController?action=logout">Logout</a></h3>
@@ -73,10 +56,10 @@
                 <tr>
                     <td><%= ord.getOrderID()%></td>
                     <td><%= ord.getOrderDate()%></td>
-                    <td><%= ord.getShipDate()%></td>   
+                    <td><%= ord.getShipDate() == null ? "N/A" : ord.getShipDate()%></td>   
                     <td style="color:darkgreen;font-weight: 600;"><%= statuses[ord.getStatus()]%>
-                        <br/><% if (ord.getStatus() == 1) {%><a href="mainController?action=cancelorder&orderid=<%=ord.getOrderID()%>">Cancel order </a>
-                        <% } else if (ord.getStatus() == 3) {%><a href="mainController?action=orderagain&orderid=<%=ord.getOrderID()%>">Order again </a> <%}%>
+                        <br/><% if (ord.getStatus() == 1) {%><a href="cancelOrderServlet?orderid=<%=ord.getOrderID()%>">Cancel order </a>
+                        <% } else if (ord.getStatus() == 3) {%><a href="orderAgainServlet?orderid=<%=ord.getOrderID()%>">Order again </a> <%}%>
                     </td>
                     <td style="color:darkgreen;font-weight: 600;"><a href="orderDetail.jsp?orderid=<%= ord.getOrderID()%>">View detail</a></td>
                 </tr>
@@ -85,7 +68,7 @@
                 }
             } else {
             %>
-            <p>You don't have any order </p>
+            <p style="color:green; font-weight: bold; padding-left: 1%;" >No orders founded</p>
             <% } %>
         </section>
         <footer>
@@ -94,7 +77,7 @@
         <%
         } else {
         %>
-        <p><font color='red'>you must login to view personal page</font></p>
+        <p><font color='red'>you must login to view your orders</font></p>
             <% }%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>

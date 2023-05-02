@@ -35,52 +35,50 @@ public class mainController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
-            if (action == null || action.equals("") || action.equals("search")) {
+            if (action == null || action.equals("")) {
                 url = "index.jsp";
             } else if (action.equals("login")) {
                 url = "loginServlet";
+            } else if (action.equals("search")) {
+                url = "searchLaptopServlet";
             } else if (action.equals("register")) {
                 url = "registerServlet";
             } else if (action.equals("logout")) {
                 url = "logoutServlet";
-            } else if (action.equals("orderagain")) {
-                url = "orderAgainServlet";
-            } else if (action.equals("cancelorder")) {
-                url = "cancelOrderServlet";
-            } else if (action.equals("change profile")) {
-                url = "changProfileServlet";
-            } else if (action.equals("addtocart")) {
-                url = "addToCartServlet";
+            } else if(action.equals("check out")){
+                url = "checkOutServlet";
+            } else if (action.equals("manageAccounts")) {
+                url = "manageAccountsServlet";
+            } else if (action.equals("manageLaptops")) {
+                url = "manageLaptopsServlet";
+            } else if (action.equals("search account")) {
+                url = "searchAccountServlet";
+            } else if (action.equals("deleteAccount")) {
+                url = "deleteAccountServlet";
             } else if (action.equals("viewcart")) {
                 url = "viewcart.jsp";
             } else if (action.equals("update")) {
                 url = "updateCartServlet";
             } else if (action.equals("delete")) {
                 url = "deleteCartServlet";
-            } else if (action.equals("buy")) {
-                url = "saveShoppingCartServlet";
-            } else if (action.equals("searchOrdersByStatus")) {
-                url = "searchOrdersByStatus";
-            } else if (action.equals("search orders")) {
-                url = "searchOrdersByDate";
-            } else if (action.equals("updateStatusAccount")) {
-                url = "updateStatusAccountServlet";
-            } else if (action.equals("manageAccounts") || action.equals("search account")) {
-                url = "manageAccountsServlet";
-            } else if (action.equals("manageOrders") || action.equals("filter orders by date") || action.equals("filter orders by email") ) {
-                url = "manageOrdersServlet";
-            } else if (action.equals("managePlants") || action.equals("updatePlantWithAdmin")) {
-                url = "managePlantsServlet";
-            } else if (action.equals("manageCategories") || action.equals("updateCategory")) {
+            } else if (action.equals("submit updating account")) {
+                url = "updateAccountServlet";
+            } else if (action.equals("create account")) {
+                url = "createAccountServlet";
+            } else if (action.equals("submit updating laptop")) {
+                url = "updateLaptopServlet";
+            } else if (action.equals("deleteLaptop")) {
+                url = "deleteLaptopServlet";
+            } else if (action.equals("create laptop")) {
+                url = "createLaptopServlet";
+            } else if(action.equals("manageCategories")){
                 url = "manageCategoriesServlet";
-            }  else if (action.equals("save")) {
-                url = "saveUpdatePlantServlet";
-            } else if (action.equals("create plant")) {
-                url = "createPlantServlet";
-            } else if (action.equals("save updating category")) {
-                url = "saveUpdateCategoryServlet";
-            } else if (action.equals("create category")) {
+            }  else if(action.equals("submit updating category")){
+                url = "updateCategoryServlet";
+            } else if(action.equals("create category")){
                 url = "createCategoryServlet";
+            } else if(action.equals("search orders")){
+                url = "searchOrdersByDate";
             }
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

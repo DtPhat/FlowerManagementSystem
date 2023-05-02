@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.dao.AccountDAO;
 
 /**
@@ -34,28 +35,32 @@ public class registerServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String email = request.getParameter("txtemail");
-            String fullname = request.getParameter("txtpassword");
+            String fullname = request.getParameter("txtfullname");
             String password = request.getParameter("txtpassword");
             String phone = request.getParameter("txtphone");
-            if (phone.matches("[a-zA-Z]+") || phone.isEmpty()) {
-                request.setAttribute("txtemail", email);
-                request.setAttribute("txtfullname", fullname);
-                request.setAttribute("txtphone", phone);
-                request.setAttribute("ERROR", "the phone is invalid");
+            String warning = null;
+            if (AccountDAO.checkDuplicateEmail(email)) {
+                request.setAttribute("warning", "Email has been registered!");
+                request.getRequestDispatcher("registration.jsp").forward(request, response);
+            } else if (password.length() < 4) {
+                request.setAttribute("warning", "Password should be 4 or more characters!");
+                request.getRequestDispatcher("registration.jsp").forward(request, response);
+            } else if (!phone.matches("[0-9]+")) {
+                request.setAttribute("warning", "Phone should be number!");
                 request.getRequestDispatcher("registration.jsp").forward(request, response);
             } else {
                 int status = 1;
                 int role = 0;
                 if (AccountDAO.insertAccount(email, password, fullname, phone, status, role)) {
-                    request.setAttribute("email_newAccount", email);
-                    RequestDispatcher rd = request.getRequestDispatcher("sendOTP");
-                    rd.forward(request, response);
-
+                    HttpSession session = request.getSession();
+                    session.setAttribute("name", fullname);
+                    session.setAttribute("email", email);
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
-                    response.sendRedirect("errorpage.html");
+                    request.setAttribute("warning", "Fail to register");
+                    request.getRequestDispatcher("registration.jsp").forward(request, response);
                 }
             }
-
         }
     }
 

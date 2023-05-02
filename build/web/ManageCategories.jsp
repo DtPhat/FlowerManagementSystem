@@ -1,9 +1,10 @@
 <%-- 
-    Document   : ManageAccounts
-    Created on : Mar 10, 2023, 11:07:47 AM
+    Document   : ManageCategories
+    Created on : Apr 23, 2023, 3:20:28 PM
     Author     : PHAT
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,39 +19,49 @@
         <c:import url="header_loginedAdmin.jsp"></c:import>
             <section class="wrapper">
                 <h1>Categories management:</h1>
-                <form action="mainController" method="post">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    <c:forEach var="cate" items="${requestScope.cateList}">
-                        <c:choose>
-                            <c:when test="${requestScope.updateid == cate.getCateid()}">
+                <table class="table table-striped">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                <c:forEach items="${requestScope.cateList}" var="cate">
+                    <c:choose>
+                        <c:when test="${cate.getCateid() == param.updateId}">
+                            <form action="mainController" method="post">
+                                <input type="hidden" name="cateid" value="${cate.getCateid()}">
                                 <tr>
-                                    <td><c:out value="${cate.getCateid()}"></c:out></td>
+                                    <td>${cate.getCateid()}</td>
                                     <td><input type="text" name="catename" value="${cate.getCatename()}"></td>
-                                <input type="hidden" name="updateid" value="${cate.getCateid()}" >
-                                <td><input type="submit" name="action" value="save updating category" class="btn btn-success" required></td>
+                                    <td>
+                                        <input type="submit" name="action" value="submit updating category" class="btn btn-success">
+                                        <a href="manageCategoriesServlet" class="btn btn-danger">X</a>
+                                    </td>
                                 </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <tr>
-                                    <td><c:out value="${cate.getCateid()}"></c:out></td>
-                                    <td><c:out value="${cate.getCatename()}"></c:out></td>
-                                    <td><a class="btn btn-success" href="mainController?action=updateCategory&updateid=${cate.getCateid()}">update</a></td>
-                                </tr>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </table>
-            </form>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td>${cate.getCateid()}</td>
+                                <td>${cate.getCatename()}</td>
+                                <td>
+                                    <a href="manageCategoriesServlet?updateId=${cate.getCateid()}" class="btn btn-success">Update</a>
+                                    <a href="deleteCategoryServlet?cateid=${cate.getCateid()}" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </table>
+            <p style = "color:red; font-weight: 600; height: 12px;" ><%= (request.getAttribute("warning") == null) ? "" : request.getAttribute("warning")%> </p>
+            <h1>Adding new category:</h1>
             <form action="mainController" method="post">
-                <h2 style="color:darkgreen;">Create new category</h2>
                 <table class="form-table">
-                    <tr><td>Category name: </td><td><input type="text" name="name" required=""></td></tr>
-                    <tr><td><input type="submit" value="create category" name="action" class="btn btn-success"></td></tr>
+                    <tr><td>Name:</td><td><input type="text" name="catename" required=""></td></tr>
+                    <tr><td colspan="2">
+                            <input type="submit" value="create category" name="action" class="btn btn-success">
+                            <input type="reset" value="clear" class="btn btn-success"/>
+                        </td></tr>
                 </table>
             </form>
         </section>

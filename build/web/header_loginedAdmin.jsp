@@ -16,11 +16,10 @@
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
                 <ul class="navbar-nav">
-                    <li class="h2"><a href="AdminIndex.jsp"><img src="images/logo.jpg" width="64"></a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageAccounts">Manage Accounts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageOrders">Manage Orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=managePlants">Manage Plants</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageCategories">Manage Categories</a></li>
+                    <li class="h2"><a href="AdminIndex.jsp"><img src="images/logo2.jpg" class="logo"></a></li>
+                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageAccounts">MANAGE ACCOUNTS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageLaptops">MANAGE LAPTOPS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mainController?action=manageCategories">MANAGE CATEGORIES</a></li>
                     <li class="w-25 d-flex justify-content-end align-items-center">
                         <div style="font-size: 1.4rem; font-weight: bold;">Welcome ${sessionScope.name} | <a href="mainController?action=logout">Logout</a></div>
                     </li>

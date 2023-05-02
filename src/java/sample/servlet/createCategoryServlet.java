@@ -7,6 +7,7 @@ package sample.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import sample.dao.CategoryDAO;
  *
  * @author PHAT
  */
+@WebServlet(name = "createCategoryServlet", urlPatterns = {"/createCategoryServlet"})
 public class createCategoryServlet extends HttpServlet {
 
     /**
@@ -31,10 +33,9 @@ public class createCategoryServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String catename =request.getParameter("name");
+            String catename = request.getParameter("catename");
             CategoryDAO.insertCategory(catename);
-            response.sendRedirect("manageCategoriesServlet");
+            request.getRequestDispatcher("manageCategoriesServlet").forward(request, response);
         }
     }
 

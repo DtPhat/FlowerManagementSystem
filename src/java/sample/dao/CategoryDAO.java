@@ -82,7 +82,7 @@ public class CategoryDAO {
         }
         return null;
     }
-    
+
     public static void updateCategory(int cateid, String catename) {
         Connection cn = null;
         try {
@@ -131,5 +131,32 @@ public class CategoryDAO {
                 }
             }
         }
+    }
+
+    public static boolean deleteCategory(int cateid) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "delete from Categories\n"
+                        + "where cateid = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, cateid);
+                if (pst.executeUpdate() > 0){
+                  return true;  
+                };
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
     }
 }

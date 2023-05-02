@@ -36,66 +36,40 @@ public class loginServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String email = request.getParameter("txtemail");
             String password = request.getParameter("txtpassword");
-            String save = request.getParameter("savelogin");
             Account acc = null;
-            try {
-                if (email == null || email.equals("") || password == null || password.equals("")) {
-                    Cookie[] c = request.getCookies();
-                    String token = "";
-                    if (c != null) {
-                        for (Cookie aCookie : c) {
-                            if (aCookie.getName().equals("selector")) {
-                                token = aCookie.getValue();
-                            }
-                        }
-                    }
-                    if (!token.equals("")) {
-                        response.sendRedirect("personalPage.jsp");
+            acc = AccountDAO.getAccount(email, password);
+            if (acc != null) {
+                HttpSession session = request.getSession();
+                if (session != null) {
+                    session.setAttribute("name", acc.getFullname());
+                    session.setAttribute("email", acc.getEmail());
+                    session.setAttribute("phone", acc.getPhone());
+                    if (acc.getRole() == 1) {
+                        response.sendRedirect("AdminIndex.jsp");
                     } else {
-                        response.sendRedirect("errorpage.html");
-                    }
-                } else {
-                    acc = AccountDAO.getAccount(email, password);
-                    if (acc != null) {
-                        HttpSession session = request.getSession(true);
-                        if (session != null) {
-                            session.setAttribute("name", acc.getFullname());
-                            session.setAttribute("email", email);
-                            session.setAttribute("phone", acc.getPhone());
-                            if (save != null) {
-                                String token = "ABC123";
-                                AccountDAO.updateToken(email, token);
-                                Cookie cookie = new Cookie("selector", token);
-                                cookie.setMaxAge(60 * 2);
-                                response.addCookie(cookie);
-                            }
-                        }
-                        if (acc.getRole() == 1) {
-                            response.sendRedirect("AdminIndex.jsp");
-                        } else {
-                            response.sendRedirect("index.jsp");
-                        }
-                    } else {
-                        response.sendRedirect("errorpage.html");
+                        response.sendRedirect("index.jsp");
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                request.setAttribute("warning", "Wrong email or password");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
+}
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -109,7 +83,7 @@ public class loginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -120,7 +94,7 @@ public class loginServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

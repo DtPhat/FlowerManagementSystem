@@ -1,14 +1,13 @@
 <%-- 
-    Document   : viewCart
-    Created on : Mar 6, 2023, 9:05:11 PM
+    Document   : viewcart
+    Created on : Apr 18, 2023, 2:11:41 PM
     Author     : PHAT
 --%>
 
-
-<%@page import="sample.dao.PlantDAO"%>
-<%@page import="sample.dto.Plant"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@page import="java.util.Set"%>
+<%@page import="sample.dao.LaptopDAO"%>
+<%@page import="sample.dto.Laptop"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,39 +24,39 @@
         </header>
         <section class="wrapper">
             <%
+                int totalMoney = 0;
                 String name = (String) session.getAttribute("name");
                 if (name != null) {
             %>
             <h3>Welcome <%=session.getAttribute("name")%> | <a href="mainController?action=logout">Logout</a></h3>
-
-            <h3> 🡆 <a href="personalPage.jsp">Personal page</a></h3>
+            <h3> 🡆 <a href="personalPage.jsp">Order History</a></h3>
             <%
                 }
             %>
             <table class="table table-striped">
                 <%
                     HashMap<String, Integer> cart = (HashMap) session.getAttribute("cart");
-                    Plant plant = null;
-                    int totalMoney = 0;
+                    Laptop laptop = null;
                     if (cart != null) {
                 %>
                 <thead><th>Product ID</th><th>Image</th><th>Price</th><th>Quantity</th><th colspan="2">Action</th></thead>
                 <tbody>
                     <%
-                        Set<String> pids = cart.keySet();
-                        for (String pid : pids) {
-                            int quantity = cart.get(pid);
-                            plant = PlantDAO.getPlant(Integer.parseInt(pid));
-                            totalMoney += plant.getPrice() * quantity;
+                        for (String lid : cart.keySet()) {
+                            int quantity = cart.get(lid);
+                            laptop = LaptopDAO.getLaptop(Integer.parseInt(lid));
+                            totalMoney += laptop.getPrice() * quantity;
                     %>
                 <form action="mainController" method="post">
                     <tr>
-                        <td><input type="hidden" value="<%= pid%>" name="pid"><a href="getPlantServlet?pid=<%=pid%>" style="font-weight:bold"><%= pid%></a></td>
-                        <td><img class="cart-img" src="<%=plant.getImgpath()%>" alt="plantimg" /></td>
-                        <td><%= plant.getPrice()%></td>
+                        <td><input type="hidden" value="<%= lid%>" name="lid"><a href="" style="font-weight:bold"><%=lid%></a></td>
+                        <td><img class="cart-img" src="<%=laptop.getImgpath()%>" alt="laptopimg" /></td>
+                        <td><%= laptop.getPrice()%></td>
                         <td><input type="number" value="<%= quantity%>" name="quantity" min=1></td>
-                        <td><input type="submit" value="update" name="action" class="btn btn-success"></td>
-                        <td><input type="submit" value="delete" name="action" class="btn btn-success"></td>
+                        <td>
+                            <input type="submit" value="update" name="action" class="btn btn-success">
+                            <input type="submit" value="delete" name="action" class="btn btn-success">
+                        </td>
                     </tr>
                 </form>
                 <%
@@ -70,15 +69,17 @@
                 </tbody>    
             </table>
             <div class="cart-form">
-                <div>Total money: <%=totalMoney%>$</div>
-                <div>Order Date: <%= (new Date()).toString()%></div>
+                <h4>Total money: <%=totalMoney%>$</h4>
+                <% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    Date today = new Date();%>
+                <div>Order Date: <%= formatter.format(today)%></div>
                 <div>Ship Date: N/A</div>
                 <form action="mainController" method="post">
-                    <input type="submit" value="buy" name="action" class="btn btn-success px-4">
+                    <input type="hidden" name="total" value="<%= totalMoney%>">
+                    <input type="submit" value="check out" name="action" class="btn btn-success my-3" style="font-size: 1.4rem;">
                 </form>
             </div>
-            <font style = "color:red; font-weight: 600;" > <%= (request.getAttribute("WARNING") == null) ? "" : (String) request.getAttribute("WARNING")%></font>
-
+            <p style = "color:red; font-weight: 600;" > <%= (request.getAttribute("warning") == null) ? "" : (String) request.getAttribute("warning")%></p>
         </section>
         <footer>
             <%@ include file="footer.jsp" %>

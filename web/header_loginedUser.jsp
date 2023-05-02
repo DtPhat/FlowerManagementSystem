@@ -16,12 +16,10 @@
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
                 <ul class="navbar-nav navbar-user">
-                    <li class="h2"><a href="index.jsp"><img src="images/logo.jpg" width="64"></a></li>
                     <li class="nav-item" style="width: 10%;"><a class="nav-link" href="personalPage.jsp">All orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="changeProfile.jsp">Change profile</a></li>                    
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=searchOrdersByStatus&status=1">Processing orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=searchOrdersByStatus&status=2">Completed orders</a></li>
-                    <li class="nav-item"><a class="nav-link" href="mainController?action=searchOrdersByStatus&status=3">Canceled orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="searchOrdersByStatus?status=1">Processing orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="searchOrdersByStatus?status=2">Completed orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="searchOrdersByStatus?status=3">Canceled orders</a></li>
                     <li class="w-25 d-flex justify-content-end" style="color:green; font-weight: bold;">
                         <form action="mainController" method="post" class="nav-form d-flex align-items-center gap-2">
                             <span>From </span><input type="date" name="from">

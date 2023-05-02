@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author PHAT
  */
+@WebServlet(name = "addToCartServlet", urlPatterns = {"/addToCartServlet"})
 public class addToCartServlet extends HttpServlet {
 
     /**
@@ -33,22 +35,20 @@ public class addToCartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String pid = request.getParameter("pid");
-            HttpSession session = request.getSession(true);
-            if(session != null){
+            String lid = request.getParameter("lid");
+            HttpSession session = request.getSession();
+            if (session != null) {
                 HashMap<String, Integer> cart = (HashMap<String, Integer>) session.getAttribute("cart");
-                if(cart == null){
+                if (cart == null) {
                     cart = new HashMap<>();
-                    cart.put(pid,1);
-                }
-                else{
-                    Integer quantity = cart.get(pid);
-                    if(quantity == null){
-                        cart.put(pid, 1);
-                    }
-                    else{
+                    cart.put(lid, 1);
+                } else {
+                    Integer quantity = cart.get(lid);
+                    if (quantity == null) {
+                        cart.put(lid, 1);
+                    } else {
                         quantity++;
-                        cart.put(pid, quantity);
+                        cart.put(lid, quantity);
                     }
                 }
                 session.setAttribute("cart", cart);

@@ -37,6 +37,9 @@ public class manageAccountsServlet extends HttpServlet {
             String keyword = request.getParameter("txtsearch") == null ? "" : request.getParameter("txtsearch");
             ArrayList<Account> list = AccountDAO.getAccounts(keyword);
             request.setAttribute("accountList", list);
+            if (request.getParameter("updateId") != null) {
+                request.setAttribute("updateId", Integer.parseInt(request.getParameter("updateId")));
+            }
             request.getRequestDispatcher("ManageAccounts.jsp").forward(request, response);
         }
     }

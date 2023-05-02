@@ -33,12 +33,8 @@ public class manageCategoriesServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             ArrayList<Category> list = CategoryDAO.getCategories();
-            String id = request.getParameter("updateid");
-            if (id != null && !id.isEmpty()) {
-                int updateid = Integer.parseInt(id);
-                request.setAttribute("updateid", updateid);
-            }
             request.setAttribute("cateList", list);
             request.getRequestDispatcher("ManageCategories.jsp").forward(request, response);
         }

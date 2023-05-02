@@ -4,8 +4,9 @@
     Author     : PHAT
 --%>
 
-<%@page import="sample.dao.PlantDAO"%>
-<%@page import="sample.dto.Plant"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="sample.dao.LaptopDAO"%>
+<%@page import="sample.dto.Laptop"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,44 +18,43 @@
         <link rel="stylesheet" href="mycss.css" type="text/css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
-    <body>
+    <body class="bg-light">
         <header>
             <%@include file="header.jsp" %>
         </header>
         <section class="wrapper">
-            <div class="row gap-5" style="padding-left: 2rem;">
-            <%
-                String name = (String) session.getAttribute("name");
-                String keyword = (String) request.getParameter("txtsearch");
-                String searchby = (String) request.getParameter("searchby");
-                ArrayList<Plant> list;
-                String[] statuses = {"out of stock", "available"};
-                if (keyword == null && searchby == null) {
-                    list = PlantDAO.getPlants("", "");
-                } else {
-                    list = PlantDAO.getPlants(keyword, searchby);
-                }
-                if (list != null && !list.isEmpty()) {
-                    for (Plant p : list) {%>
-                <div class="card my-5">
-                    <img src="<%=p.getImgpath()%>" class='card-img-top plantimg' />
-                    <div class="card-body font-weight-bold">
-                        <h1 class="card-title text-center"><%= p.getName()%></h5>
-                        <p class="card-text">Price: $<%= p.getPrice()%></p>
-                        <p class="card-text">Status: <%= statuses[p.getStatus()]%></p>
-                        <p class="card-text">Category: <%= p.getCatename()%></p>
-                        <a class="btn btn-success w-100" href="mainController?action=addtocart&pid=<%= p.getId()%>">Add to cart</a>
-                    </div>
-                </div>
-            <%    }
-                } else{
-            %>
-            <h4 class="text-success" style="font-weight: 700;">No plants founded!</h4>
-            <%
-                }
-            %>
+            <div>
+                <%
+                    String name = (String) session.getAttribute("name");
+                    if (name != null) {
+                %>
+                <h3>Welcome <%= name%> | <a href="mainController?action=logout">Logout</a></h3>
+                <%}%>
             </div>
-        </section>
+            <div class="row gap-5">
+                <c:set var="laptopList" value="${requestScope.laptopList}" />
+                <c:if test="${laptopList == null}">
+                    <c:set var="laptopList" value="${LaptopDAO.getLaptops('','')}" />
+                </c:if>
+                <c:forEach items="${laptopList}" var="l">
+                    <div class="card my-4">
+                        <img src="${l.getImgpath()}" class='card-img-top laptopimg'/>
+                        <div class="card-body font-weight-bold">
+                            <h1 class="card-title text-center">${ l.getName()}</h5>
+                                <p class="card-text">Price: ${ l.getPrice()}</p>
+                                <p class="card-text"> Status:
+                                    <c:choose>
+                                        <c:when test="${l.getStatus() == 1}">available</c:when>
+                                        <c:otherwise>not available</c:otherwise>  
+                                    </c:choose>
+                                </p>
+                                <p class="card-text">Category: ${ l.getCatename()}</p>
+                                <a class="btn btn-success w-100" href="addToCartServlet?lid=${l.getId()}">Add to cart</a>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </section>    
         <footer>
             <%@include file="footer.jsp" %>
         </footer>

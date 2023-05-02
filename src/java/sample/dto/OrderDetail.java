@@ -11,8 +11,8 @@ package sample.dto;
 public class OrderDetail {
     private int orderDetailID;
     private int orderID;
-    private int plantID;
-    private String PlantName;
+    private int laptopID;
+    private String LaptopName;
     private int price;
     private String ImgPath;
     private int quantity;
@@ -20,11 +20,11 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderDetailID, int orderID, int plantID, String PlantName, int price, String ImgPath, int quantity) {
+    public OrderDetail(int orderDetailID, int orderID, int laptopID, String LaptopName, int price, String ImgPath, int quantity) {
         this.orderDetailID = orderDetailID;
         this.orderID = orderID;
-        this.plantID = plantID;
-        this.PlantName = PlantName;
+        this.laptopID = laptopID;
+        this.LaptopName = LaptopName;
         this.price = price;
         this.ImgPath = ImgPath;
         this.quantity = quantity;
@@ -46,20 +46,20 @@ public class OrderDetail {
         this.orderID = orderID;
     }
 
-    public int getPlantID() {
-        return plantID;
+    public int getLaptopID() {
+        return laptopID;
     }
 
-    public void setPlantID(int plantID) {
-        this.plantID = plantID;
+    public void setLaptopID(int laptopID) {
+        this.laptopID = laptopID;
     }
 
-    public String getPlantName() {
-        return PlantName;
+    public String getLaptopName() {
+        return LaptopName;
     }
 
-    public void setPlantName(String PlantName) {
-        this.PlantName = PlantName;
+    public void setLaptopName(String LaptopName) {
+        this.LaptopName = LaptopName;
     }
 
     public int getPrice() {

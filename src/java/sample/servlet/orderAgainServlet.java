@@ -43,7 +43,7 @@ public class orderAgainServlet extends HttpServlet {
             ArrayList<OrderDetail> list = OrderDAO.getOrderDetail(id);
             HashMap<String, Integer> hashmap = new HashMap();
             for(OrderDetail detail : list){
-                hashmap.put(Integer.toString(detail.getPlantID()), detail.getQuantity());
+                hashmap.put(Integer.toString(detail.getLaptopID()), detail.getQuantity());
             }
             OrderDAO.insertOrder(email, hashmap);
             RequestDispatcher rd = request.getRequestDispatcher("personalPage.jsp");

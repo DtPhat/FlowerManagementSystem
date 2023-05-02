@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <p class="footer" style="color:darkgreen; text-align: center;">Copyright &copy; 2021</p>
+        <p class="footer" style="color:darkgreen; text-align: center;">Copyright &copy; 2023</p>
     </body>
 </html>
